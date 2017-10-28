@@ -1,0 +1,64 @@
+<h1>Form</h1>
+<form #form="ngForm" novalidate (submit)="submitForm(form)">
+    <div class="form-group">
+        <label for="firstName">FirstName</label>
+        <input type="text" class="form-control col-sm-6" placeholder="firstName" name="firstName" 
+            [ngModel]="model.firstName" (ngModelChange)="FirstToUpper($event)" id="firstName"
+            required>
+    </div>
+    <div class="form-group">
+        <label for="address">address</label>
+        <input #address required type="text" class="form-control col-sm-6" placeholder="address" name="address" 
+            [(ngModel)]="model.address" id="address"
+            required>
+    </div>
+        <h3>{{address.className}}</h3>
+     <div class="form-group" [class.has-error]="lastName.invalid">
+        <label for="lastName" class="control-label">LastName</label>
+        <input  #lastName="ngModel" type="text" class="form-control" placeholder="lastName" name="lastName" 
+            [(ngModel)]="model.lastName"  id="lastName" required>
+        <div class="alert alert-danger" *ngIf="lastName.invalid">
+            Last Name Required
+        </div>
+    </div>
+    <div class="form-group" [class.has-error]="phone.invalid">
+        <label for="phone" class="control-label">Phone</label>
+        <input  #phone="ngModel" type="text" class="form-control" placeholder="phone" name="phone" 
+            [(ngModel)]="model.phone"  id="phone" pattern="[0-9]{10}">
+        <div class="alert alert-danger" *ngIf="phone.invalid">
+           Only enter Number
+        </div>
+        <!--^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$-->
+    </div>
+    <h3>{{lastName.invalid}}</h3>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="fulltime" [(ngModel)]="model.fulltime">Full Time
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="gender" value="male" [(ngModel)]="model.gender">Male
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="gender" value="female" [(ngModel)]="model.gender">Female
+        </label>
+    </div>
+    <div class="form-group" [class.has-error]="hasErrorLang">
+        <label>Code Lang</label>
+        <select  class="form-control"(blur)="validateLang($event)"
+        name="codeLang" [(ngModel)]="model.codeLang">
+            <option value="default">Select A Lang.....</option>
+            <option *ngFor="let lang of languages">{{lang}}</option>
+            
+        </select>
+        <div class="alert alert-danger" *ngIf="hasErrorLang">
+          Select Valid Input
+        </div>
+    </div>
+    <button class="btn btn-success" type="submit">Submit</button>
+</form>
+Model:{{model|json}}<br>
+Angular:{{form.value|json}}
