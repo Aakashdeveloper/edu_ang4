@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {Employee} from '../models/employee.model';
+import {FormPost} from '../services/formPost.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'home',
@@ -17,7 +19,17 @@ export class HomeComponent {
     else
       this.model.firstName=value;
   }
+  constructor(private _formPoster:FormPost){
 
+  }
+  submitForm(form:NgForm){
+    console.log(form.value)
+    this._formPoster.postEmployee(this.model)
+      .subscribe(
+        data=>console.log('suucess',data),
+        err => console.log('error:',err)
+      )
+  }
   validateLang(event){
     if(this.model.codeLang=="default")
       this.hasErrorLang=true;
